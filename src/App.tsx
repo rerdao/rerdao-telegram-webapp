@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import rerLogo from './assets/RER-black.svg'
 import './App.css'
+
+import WebApp from '@twa-dev/sdk'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -9,14 +10,12 @@ function App() {
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
+
         <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+          <img src={rerLogo} className="logo react" alt="logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>RERDao Bot</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -28,6 +27,12 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      {/* Here we add our button with alert callback */}
+      <div className="card">
+        <button onClick={() => WebApp.showAlert(`Hello World! Current count is ${count}`)}>
+          Show Alert
+        </button>
+      </div>
     </>
   )
 }
