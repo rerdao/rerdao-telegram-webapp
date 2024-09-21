@@ -11,21 +11,24 @@ function App() {
     <>
       <div>
 
-        <a href="https://react.dev" target="_blank">
+        <a href="https://rerdao.xyz" target="_blank">
           <img src={rerLogo} className="logo react" alt="logo" />
         </a>
       </div>
-      <h1>RERDao Bot</h1>
+      <h1>Welcome!</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+          Stake {count}
+        </button>
+        <button onClick={() => setCount((count) => count + 1)}>
+          Vote {count}
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Click the Logo to Visit the URL
       </p>
       {/* Here we add our button with alert callback */}
       <div className="card">
