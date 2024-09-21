@@ -1,43 +1,61 @@
-import { useState } from 'react'
-import rerLogo from './assets/RER-black.svg'
-import './App.css'
-
-import WebApp from '@twa-dev/sdk'
+import { useState, useEffect } from 'react';
+import TonConnect from '@tonconnect/sdk';  // Import TON SDK
+import rerLogo from './assets/RER-black.svg';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [walletConnected, setWalletConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const tonConnect = new TonConnect();
+
+  useEffect(() => {
+    // Check if the wallet is already connected when the app loads
+    if (tonConnect.connected) {
+      setWalletConnected(true);
+      const userWallet = tonConnect.getUserAddress();  // Fetch the connected wallet address
+      setWalletAddress(userWallet);
+    }
+  }, [tonConnect]);
+
+  const connectWallet = async () => {
+    try {
+      await tonConnect.connect();
+      setWalletConnected(true);
+      const userWallet = tonConnect.getUserAddress();
+      setWalletAddress(userWallet);
+    } catch (error) {
+      console.error('Error connecting to TON Wallet:', error);
+    }
+  };
 
   return (
-    <>
-      <div>
-
-        <a href="https://rerdao.xyz" target="_blank">
-          <img src={rerLogo} className="logo react" alt="logo" />
+    <div className="App">
+      <header className="App-header">
+        <a href="https://rerdao.xyz" target="_blank" rel="noopener noreferrer">
+          <img src={rerLogo} className="logo" alt="RER Logo" />
         </a>
-      </div>
-      <h1>Welcome!</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          Stake {count}
-        </button>
-        <button onClick={() => setCount((count) => count + 1)}>
-          Vote {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click the Logo to Visit the URL
-      </p>
-      {/* Here we add our button with alert callback */}
-      <div className="card">
-        <button onClick={() => WebApp.showAlert(`Hello World! Current count is ${count}`)}>
-          Show Alert
-        </button>
-      </div>
-    </>
-  )
+        <h1>Welcome!</h1>
+
+        {!walletConnected ? (
+          <button onClick={connectWallet}>Connect TON Wallet</button>
+        ) : (
+          <div>
+            <p>Wallet Connected: {walletAddress}</p>
+            <button>
+              <a href="/swap" style={{ textDecoration: 'none', color: 'inherit' }}>
+                Go to Swap or Stake
+              </a>
+            </button>
+            <button>
+              <a href="/voting" style={{ textDecoration: 'none', color: 'inherit' }}>
+                Go to Voting
+              </a>
+            </button>
+          </div>
+        )}
+      </header>
+    </div>
+  );
 }
 
-export default App
+export default App;
